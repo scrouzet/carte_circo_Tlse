@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(rgdal)\nlibrary(leaflet)\nlibrary(sp)\nlibrary(htmlwidgets)\nlibrary(GISTools)\n\ncirco <- rgdal::readOGR(\"circonscriptions-electorales-haute-garonne.geojson\", \"OGRGeoJSON\")\n\n# mydata = circo@data\n# m <- leaflet(mydata) %>%\n#   addTiles() %>%\n#   addCircleMarkers(~geo_point_2d2, ~geo_point_2d1)\n# m\n\n# Define the mapping between circonsription and colors\npal = colorFactor(\n  palette = \"Set3\",\n  domain  = circo@data$circonscription\n)\n\nm = leaflet()\n#m = addProviderTiles(m, \"Esri.WorldStreetMap\")\n#m = addProviderTiles(m, \"OpenStreetMap.BlackAndWhite\")\n# To chose the map style:\n# http://leaflet-extras.github.io/leaflet-providers/preview/index.html\nm = addTiles(m)\nm = addPolygons(m, \n                data = circo,\n                color = \"#444444\", \n                weight = 1,\n                smoothFactor = 0.2,\n                opacity = 1,\n                fillOpacity = 0.5,\n                fillColor = ~pal(circo@data$circonscription)\n)\nm = addLegend(m, \"bottomright\", pal = pal, values = circo@data$circonscription,\n              title = \"Circonscriptions\",\n              labFormat = labelFormat(prefix = \" \"),\n              opacity = 0.75\n)\nm\n\n\n## %>% setView(lng = 1.4333, lat = 43.6, zoom = 11)\n\n# Export de la carte en html\nlibrary(htmlwidgets)\nsaveWidget(m, 'circo_Tlse.html', selfcontained = TRUE)\n\n\n\n# library(ggmap)\n# tlse <- 'Toulouse'\n# qmap(tlse,zoom = 11)+\n#   geom_polygon(aes(x = geo_point_2d1, y = geo_point_2d2), data = circo,\n#                colour = 'black', fill = 'black')\n\n\n#library(RColorBrewer)\n#display.brewer.all()",
+    "created" : 1493815259334.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "75003181",
+    "id" : "248932CD",
+    "lastKnownWriteTime" : 1493825886,
+    "last_content_update" : 1493825886659,
+    "path" : "~/src/carte_circo_Tlse/carteCirco_Tlse.R",
+    "project_path" : "carteCirco_Tlse.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
